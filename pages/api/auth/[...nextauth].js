@@ -1,0 +1,81 @@
+import connectMongoose from "/database/conn"
+import Auth from "/model/auth"
+import { compare } from "bcryptjs"
+import NextAuth from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
+export const authOptions = {
+  // Configure one or more authentication providers
+providers: [
+  CredentialsProvider({
+    // The name to display on the sign in form (e.g. 'Sign in with...')
+   // name: 'Credentials',
+    id:'credentials',
+    // The credentials is used to generate a suitable form on the sign in page.
+    // You can specify whatever fields you are expecting to be submitted.
+    // e.g. domain, username, password, 2FA token, etc.
+    // You can pass any HTML attribute to the <input> tag through the object.
+    credentials: {
+      email: { label: "Email", type: "text", placeholder: "Email" },
+      password: { label: "Password", type: "password" }
+    },
+    async authorize(credentials, req) {
+      // You need to provide your own logic here that takes the credentials
+      // submitted and returns either a object representing a user or value
+      // that is false/null if the credentials are invalid.
+      // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
+      // You can also use the `req` object to obtain additional parameters
+      // (i.e., the request IP address)
+      await connectMongoose().catch(err=>{ throw new Error(err)})
+      const auth=await Auth.findOne({
+        email:credentials?.email
+      }).select('+password')
+      if(!auth){
+        throw new Error('Invalid Credentials')
+      }
+      console.log(auth.password)
+      const isPassword=await compare (credentials?.password,auth.password)
+      if(!isPassword){
+        throw Error('invalid Password')
+      }
+      return auth
+    //   const res = await fetch("/your/endpoint", {
+    //     method: 'POST',
+    //     body: JSON.stringify(credentials),
+    //     headers: { "Content-Type": "application/json" }
+    //   })
+    //   const user = await res.json()
+
+    //   // If no error and we have user data, return it
+    //   if (res.ok && user) {
+    //     return user
+    //   }
+    //   // Return null if user data could not be retrieved
+    //   return null
+
+     }
+  }
+  )
+],
+pages:{
+     signIn:'/login'
+},
+session:{
+ strategy:'jwt'
+},
+callbacks:{
+    jwt:async({token,auth})=>{
+       await auth &&(token.auth=auth)
+        return token
+    },
+    session:async({session,token})=>{
+        const auth=await token.auth
+        session.auth=auth
+        return session
+    }
+}
+
+
+}
+
+
+export default NextAuth(authOptions)
