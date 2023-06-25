@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import {BiUserPlus} from 'react-icons/bi'
+import {BiUserPlus,BiLogOut} from 'react-icons/bi'
 import Table from '/components/table'
 import Form from '/components/form'
 import {useSelector,useDispatch} from 'react-redux'
@@ -27,9 +27,14 @@ export default function Home() {
         <h1 className="text-xl md:text-5xl text-center font-bold py-10">
       Hello world!
     </h1>
-     <div>
+     <div className='flex w-full justify-between px-4'>
      {session?session.data?.user?.email:null}
-      {session?<button onClick={signOut}>LogOut</button>:null}
+      {session?
+      <button 
+      className='flex justify-center items-center w-1/6 text-lg   h-9 border rounded-md bg-indigo-400 hover:text-indigo-400 hover:bg-white hover: border-indigo-400'
+      onClick={signOut}>
+        LogOut <span className='px-2'><BiLogOut size={25} /> </span>
+        </button>:null}
       </div>
     <div className='container mx-auto flex justify-between py-5 border-b' >
     <div className='left flex gap-3'>
