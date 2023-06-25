@@ -4,6 +4,7 @@ import SuccessMessage from './sucsses'
 import {createUser,getUsers} from '../lib/helper'
 import Bugs from './Bugs'
 import {useMutation,useQueryClient} from 'react-query'
+import InputField from './InputField'
 const AddUserForm = ({state,dispatch}) => {
   const client=useQueryClient()
   const createMutation=useMutation(createUser,{
@@ -35,19 +36,43 @@ if(createMutation.isSuccess)return<SuccessMessage message={'Add user sucssess'} 
   
     <form onSubmit={handleSubmit} className='grid lg:grid-cols-2 w-4/6 gap-5'>
       <div className='input-type'>
-        <input type='text' onChange={dispatch} name='firstName' className='border w-full px-5 py-2 focus:outline-none rounded-md ' placeholder='FirstName' />
+        <InputField 
+        type={'text'}
+        onChange={dispatch}
+         name='firstName'
+         placeholder='FirstName'
+        />
       </div>
       <div className='input-type'>
-        <input type='text' onChange={dispatch} name='lastName' className='border w-full px-5 py-2 focus:outline-none rounded-md ' placeholder='LastName' />
+        <InputField 
+        type={'text'}
+         onChange={dispatch}
+          name='lastName'
+          placeholder='LastName'
+        />
       </div>
       <div className='input-type'>
-        <input type='text'onChange={dispatch} name='email' className='border w-full px-5 py-2 focus:outline-none rounded-md ' placeholder='Email' />
+      <InputField 
+      type={'text'}
+         onChange={dispatch}
+          name='email'
+          placeholder='Email'
+        />
       </div>
       <div className='input-type'>
-        <input type='text' onChange={dispatch} name='salary' className='border w-full px-5 py-2 focus:outline-none rounded-md ' placeholder='Salary' />
+      <InputField 
+      type={'text'}
+         onChange={dispatch}
+          name={'salary'}
+          placeholder='Salary'
+        />
       </div>
       <div className='input-type'>
-        <input type='date' onChange={dispatch} name='date' className='px-4 py-2 border rounded-md focus:outline-none'  />
+   <InputField 
+   type={'date' }
+   onChange={dispatch}
+    name={'date'}
+   />
       </div>
       <div className='flex gap-10 items-center'>
         <div className='form-check'>

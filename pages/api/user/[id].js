@@ -1,5 +1,5 @@
 import connectMongoose from "/database/conn";
-import { getSingleUser,putUser,deleteUser} from "@/database/controller";
+import { getSingleUser,putUser,deleteUser} from "/database/controller";
  const handler=async(req,res)=>{
     console.log('im m in single fun')
     connectMongoose().catch(()=>

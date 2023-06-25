@@ -22,7 +22,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className='py-2'>
+      <main className=' py-2' >
         
         <h1 className="text-xl md:text-5xl text-center font-bold py-10">
       Hello world!
@@ -47,7 +47,7 @@ export default function Home() {
     
    { visible? <Form />:<></>}
 
-    <div className='container mx-auto '>
+    <div className='container mx-auto'>
     <Table />
     </div>
         
